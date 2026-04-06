@@ -3,8 +3,10 @@ import string
 import time
 import matplotlib.pyplot as plt
 from hvlcs import hvlcs
+import os
 
-def generateTest(length):
+
+def generateTest(length, fileName, folder="tests/q1Tests"):
     alphabet = ['a', 'b', 'c', 'd', 'e']
     values = {}
     for ch in alphabet:
@@ -17,6 +19,19 @@ def generateTest(length):
     B = ""
     for i in range(length):
         B += random.choice(alphabet)
+    
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    
+    filePath = os.path.join(folder, fileName)
+
+    with open(filePath, 'w') as f:
+        f.write(f"{len(alphabet)}\n")
+        for character, value in values.items():
+            f.write(f"{character} {value}\n")
+        f.write(f"{A}\n")
+        f.write(f"{B}\n")
+
     return A, B, values
 
 def graphTest():
@@ -24,7 +39,7 @@ def graphTest():
     times = []
 
     for size in sizes:
-        A, B, values = generateTest(size)
+        A, B, values = generateTest(size, f"testSize{size}.in")
         start_time = time.time()
         hvlcs(A, B, values)
         end_time = time.time()

@@ -41,6 +41,16 @@ function computeHVLCSLength(A, B, vals)
                 OPT[i][j] = OPT[i - 1][j - 1] + value of character
             Else:
                 OPT[i][j] = max(OPT[i - 1][j], OPT[i][j - 1])
-    return OPT[n][m]
+    
+    Initialize empty array holding characters for post-processing, reset i and j to n and m
+    While i > 0 and j > 0:
+        If A[i - 1] == B[j - 1]:
+            Add character to the sequence array
+        Else if OPT[i - 1][j] > OPT[i][j - 1]:
+            Move up in the array
+        Else:
+            Move left in the array
+    
+    return length of array containing added characters
 ```
-The runtime for this algorithm is O(n * m). This is because it goes through the 2D array in its entirety to keep track of every character combination.
+The runtime for this algorithm is O(n * m). This is because it goes through the 2D array in its entirety, calculating the value of each string sequence. The post-processing step takes O(n + m) because it backtracks the array with one while loop. Finally, returning the string is O(1). Therefore, the total runtime of the algorithm is O(n * m).
